@@ -1,0 +1,52 @@
+services:
+  demo-target:
+    build:
+      context: ./scar-demo-target
+    container_name: demo-target
+    ports:
+      - "5000:5000"
+    networks:
+      - scar-net
+    restart: unless-stopped
+
+  scar-backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: scar-backend
+    ports:
+      - "8000:8000"
+    networks:
+      - scar-net
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+      - ./nuclei-templates:/app/nuclei-templates
+      - ./fallback-cache:/app/fallback-cache
+      - ./.env:/app/.env:ro
+
+    depends_on:
+      - demo-target
+    restart: unless-stopped
+
+  scar-frontend:
+    build:
+      context: ./scar-frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
+    container_name: scar-frontend
+    ports:
+      - "3002:3000"
+    networks:
+      - scar-net
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - scar-backend
+    restart: unless-stopped
+
+networks:
+  scar-net:
+    driver: bridge
