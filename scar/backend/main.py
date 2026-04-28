@@ -25,6 +25,7 @@ app.add_middleware(
         "http://localhost:3000",
         "http://localhost:3002",
         "https://brilliant-malabi-72a44c.netlify.app/",
+        "https://cool-strudel-d0d33a.netlify.app/",
     ],
     allow_methods=["*"],
     allow_headers=["*"],
