@@ -1,7 +1,7 @@
 import type { HealthResponse } from "./types";
 
 // Use the public API URL (set at build time for Docker)
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || https://moderator-outsourcing-permit-condos.trycloudflare.com
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || https://scar-backend-1777409117.loca.lt
 
 /** GET /health — check backend, LLM, and GitHub status */
 export async function getHealth(): Promise<HealthResponse> {
